@@ -1,15 +1,24 @@
 <?php
-
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Matakuliah extends Model
+class MataKuliah extends Model
 {
-    protected $fillable = [
-        'kode',
-        'nama_matakuliah'
-    ];
+    use HasFactory;
 
     protected $table = 'matakuliahs';
+
+    protected $fillable = [
+        'kode_mk',
+        'nama_mk',
+        'sks',
+        'semester',
+    ];
+
+    public function absensis()
+    {
+        return $this->hasMany(Absensi::class, 'matakuliah_id');
+    }
 }

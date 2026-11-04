@@ -6,24 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('matakuliah', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->string('kode')->unique();
-            $table->string('nama_matakuliah');
+        Schema::create('matakuliahs', function (Blueprint $table) {
+            $table->id();
+            $table->string('kode_mk', 10)->unique();
+            $table->string('nama_mk', 100);
+            $table->tinyInteger('sks');
+            $table->tinyInteger('semester');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('matakuliah_tables');
+        Schema::dropIfExists('matakuliahs');
     }
 };
