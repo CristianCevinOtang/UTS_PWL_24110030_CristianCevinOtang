@@ -18,7 +18,7 @@ class AbsensiController extends Controller
         $mataKuliahId = $request->matakuliah_id;
 
         if ($mataKuliahId) {
-            $mahasiswas = Mahasiswa::orderBy('nama')->get();
+            $mahasiswas = Mahasiswa::orderBy('name')->get();
 
             $absensis = Absensi::where('matakuliah_id', $mataKuliahId)
                 ->where('tanggal_absensi', $tanggal)
@@ -41,8 +41,10 @@ class AbsensiController extends Controller
             'tanggal'       => 'required|date',
             'matakuliah_id' => 'required|exists:matakuliahs,id',
             'absensi'       => 'required|array',
-            'absensi.*'     => 'required|in:hadir,alpa,izin,sakit',
+            'absensi.*'     => 'required|in:H,A,I,S',
         ]);
+
+        $map = ['hadir' => 'H', 'alpa' => 'A', 'izin' => 'I', 'sakit' => 'S'];
 
         foreach ($request->absensi as $mahasiswaId => $status) {
             Absensi::updateOrCreate(
@@ -51,7 +53,7 @@ class AbsensiController extends Controller
                     'matakuliah_id'   => $request->matakuliah_id,
                     'tanggal_absensi' => $request->tanggal,
                 ],
-                ['status' => $status]
+                ['status_absen' => $map[$status] ?? $status]
             );
         }
 
